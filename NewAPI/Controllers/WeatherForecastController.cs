@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿/*using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NewAPI.Model;
@@ -30,7 +30,7 @@ namespace NewAPI.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles ="Decadev")]
+        [Authorize(Policy ="DecaDevRole")]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
@@ -62,3 +62,4 @@ namespace NewAPI.Controllers
         }
     }
 }
+*/

@@ -4,7 +4,7 @@ namespace NewAPI.Security
 {
     public interface IJWTSecurity
     {
-        public string JWTGen(User user);
+        public string JWTGen(User user, string role);
 
     }
 }

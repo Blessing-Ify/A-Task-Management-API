@@ -18,14 +18,14 @@ namespace NewAPI.Security
             _config = config;
         }
         //this is to customize your token
-        public string JWTGen(User user)
+        public string JWTGen(User user, string role)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, $"{user.LastName} {user.FirstName}"),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, role)
             };
 
             //the symmetricKey is like a signature that would be signed against
