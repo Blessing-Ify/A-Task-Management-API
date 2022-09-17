@@ -8,9 +8,11 @@ namespace NewAPI.Settings
     {
         public AutoMapperProfile()
         {
-            //       <source, Destination>
-            CreateMap<UserToAddDto, User>()
-                .ForMember(Dest => Dest.UserName, opt => opt.MapFrom(src => src.Email)); //the additional setting is because we need username for identity
+                   //<source, Destination>
+            CreateMap<UserDto, User>()
+                .ForMember(Dest => Dest.UserName, opt => opt.MapFrom(src => src.Email));
+            //the additional setting is because username has no correspondent in the user model
+           // CreateMap<User, UserDto>();
         }
     }
 }

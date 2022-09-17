@@ -48,7 +48,7 @@ namespace NewAPI.ConfigExtention
             });
         }
 
-        public static void ConfigureAuthentication(IServiceCollection services, IConfiguration config)
+       /* public static void ConfigureAuthentication(IServiceCollection services, IConfiguration config)
         {
 
             services.AddAuthentication(opt =>
@@ -68,7 +68,7 @@ namespace NewAPI.ConfigExtention
                     ValidateIssuerSigningKey = true
                 };
             });
-        }
+        }*/
 
         
 

@@ -6457,11 +6457,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Decagon\\Documents\\c sharp\\NewAPI\\NewAPI\\NewAPI.csproj",
-      "projectName": "NewAPI",
-      "projectPath": "C:\\Users\\Decagon\\Documents\\c sharp\\NewAPI\\NewAPI\\NewAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Decagon\\Documents\\c sharp\\TaskManagementAPI\\NewAPI\\TaskManagementAPI.csproj",
+      "projectName": "TaskManagementAPI",
+      "projectPath": "C:\\Users\\Decagon\\Documents\\c sharp\\TaskManagementAPI\\NewAPI\\TaskManagementAPI.csproj",
       "packagesPath": "C:\\Users\\Decagon\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Decagon\\Documents\\c sharp\\NewAPI\\NewAPI\\obj\\",
+      "outputPath": "C:\\Users\\Decagon\\Documents\\c sharp\\TaskManagementAPI\\NewAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Decagon\\AppData\\Roaming\\NuGet\\NuGet.Config",

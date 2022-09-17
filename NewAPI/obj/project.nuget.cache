@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AOKYuxKGCeqQ7zetoJR4UPSj8Li7n9beS/z9Qsp5UbEs+8Jpv6Nw1Gz0YIC3d7Ea3eXM3TyXuV5+MAjKUqPQLg==",
+  "dgSpecHash": "DCnTSMvfrFPM9OVbj+gRn581tt53nS8iJn9hcRnahqspyA3/5g1O+i+qZdOyY9F/EwywtYWeXQE+b+H1mT1KoA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Decagon\\Documents\\c sharp\\NewAPI\\NewAPI\\NewAPI.csproj",
+  "projectFilePath": "C:\\Users\\Decagon\\Documents\\c sharp\\TaskManagementAPI\\NewAPI\\TaskManagementAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Decagon\\.nuget\\packages\\automapper\\7.0.1\\automapper.7.0.1.nupkg.sha512",
     "C:\\Users\\Decagon\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\4.0.1\\automapper.extensions.microsoft.dependencyinjection.4.0.1.nupkg.sha512",

@@ -1,10 +1,12 @@
 ﻿using NewAPI.Model;
+using System.Threading.Tasks;
+using TaskManagementAPI.DTOs;
 
 namespace NewAPI.Security
 {
     public interface IJWTSecurity
     {
-        public string JWTGen(User user, string role);
+        public Task<string> JWTGen(UserLoginDto user);
 
     }
 }

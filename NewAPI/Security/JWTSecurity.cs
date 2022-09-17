@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using NewAPI.Model;
 using System;
@@ -6,46 +7,64 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+using TaskManagementAPI.DTOs;
 
 namespace NewAPI.Security
 {
     public class JWTSecurity : IJWTSecurity
     {
         private readonly IConfiguration _config;
+        private readonly UserManager<User> _userMgr;
 
-        public JWTSecurity(IConfiguration config)
+        public JWTSecurity(IConfiguration config, UserManager<User> userMgr)
         {
             _config = config;
+            _userMgr = userMgr;
         }
+
         //this is to customize your token
-        public string JWTGen(User user, string role)
+        public async Task<string> JWTGen(UserLoginDto userlogin)
         {
+            if (await ValidateUser(userlogin) == false)
+                return null;
+
+            var user = await _userMgr.FindByEmailAsync(userlogin.Email);
+
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, $"{user.LastName} {user.FirstName}"),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Name, user.UserName)
             };
 
-            //the symmetricKey is like a signature that would be signed against
-            //any request coming to access your route to ensure that it is a known user
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("JWT:Key").Value));
-
-            //descriptor
-            var securityTokenDescriptor = new SecurityTokenDescriptor
+            var roles = await _userMgr.GetRolesAsync(user);
+            foreach (var role in roles)
             {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Today.AddDays(1),
-                SigningCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature)
-            };
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+            var JWTstring = _config.GetSection("JWT");
+            var Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTstring["Key"]));
+            var creds = new SigningCredentials(Key, SecurityAlgorithms.HmacSha512);
 
-            //create token handler
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(securityTokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var tokenOptions = new JwtSecurityToken(
+
+                issuer: null,
+                audience: null,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: creds
+
+              );
+
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            return token;
+        }
+
+        public async Task<bool> ValidateUser(UserLoginDto userDto)
+        {
+            var user = await _userMgr.FindByEmailAsync(userDto.Email);
+            return (user != null && await _userMgr.CheckPasswordAsync(user, userDto.Password));
         }
     }  
-
 
 }

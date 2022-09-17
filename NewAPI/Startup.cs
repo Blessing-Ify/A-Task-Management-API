@@ -38,18 +38,38 @@ namespace NewAPI
         {
             services.AddControllers();
             services.AddDbContext<APIContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConn")));
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<APIContext>();
+            services.AddIdentity<User, IdentityRole>(option =>
+            {
+                option.Password.RequiredUniqueChars = 0;
+                option.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<APIContext>();
             services.AddScoped<IJWTSecurity, JWTSecurity>();
             services.AddScoped<IUserService, UserService>();
             services.AddAutoMapper();
-            
+
             //calling the method of the registereg configsettings that we created a class for just to avoid lengthiness 
             ConfigSettings.ConfigureSwagger(services);
 
             // for authentication own
-            ConfigSettings.ConfigureAuthentication(services, Configuration);
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JWT:Key"))
 
+                    };
+                });
 
+            
             services.AddAuthorization(config =>
             {
                 config.AddPolicy("DecaDevRole", policy => policy.RequireRole("Decadev"));
