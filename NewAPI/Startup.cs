@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using NewAPI.ConfigExtention;
 using NewAPI.Data;
 using NewAPI.Model;
+using NewAPI.Repository.TaskEntity;
 using NewAPI.Security;
 using NewAPI.Services;
 using System;
@@ -21,6 +22,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskManagementAPI.Repository;
+using TaskManagementAPI.Repository.Interface;
+using TaskManagementAPI.Services.Implementation;
+using TaskManagementAPI.Services.Interface;
 
 namespace NewAPI
 {
@@ -40,12 +45,15 @@ namespace NewAPI
             services.AddDbContext<APIContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConn")));
             services.AddIdentity<User, IdentityRole>(option =>
             {
-                option.Password.RequiredUniqueChars = 0;
+                option.Password.RequiredUniqueChars = 0;    
                 option.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<APIContext>();
-            services.AddScoped<IJWTSecurity, JWTSecurity>();
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddAutoMapper();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddAutoMapper(typeof(Program));
 
             //calling the method of the registereg configsettings that we created a class for just to avoid lengthiness 
             ConfigSettings.ConfigureSwagger(services);
@@ -64,6 +72,8 @@ namespace NewAPI
                         ValidateAudience = false,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["JWT:Issuer"],
+                        ValidAudience = Configuration["JWT:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JWT:Key"))
 
                     };

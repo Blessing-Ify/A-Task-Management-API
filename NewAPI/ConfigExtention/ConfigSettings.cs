@@ -48,29 +48,6 @@ namespace NewAPI.ConfigExtention
             });
         }
 
-       /* public static void ConfigureAuthentication(IServiceCollection services, IConfiguration config)
-        {
-
-            services.AddAuthentication(opt =>
-            {
-                //change default scheme to Jwt
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(opt =>
-            {
-                opt.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetSection("JWT:Key").Value)),
-                    ValidateIssuerSigningKey = true
-                };
-            });
-        }*/
-
-        
-
+       
     }
 }
